@@ -9,20 +9,26 @@
 #import "ViewController.h"
 #import "WKCalendar.h"
 @interface ViewController ()<WKCalendarDelegate, WKCalendarDataSource>
-@property (weak, nonatomic) IBOutlet WKCalendar *calendar;
 
 @property (strong, nonatomic) NSMutableArray *dataSource;
+@property (weak, nonatomic) IBOutlet WKCalendar *calendar;
 
 @end
 
 @implementation ViewController
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     _calendar.delegate = self;
     _calendar.dataSource = self;
     _calendar.type = WKCalendarTypeWithDataSource;
+    _calendar.hidden = YES;
     
+    WKCalendar *calendar = [[WKCalendar alloc] initWithFrame:CGRectMake(0, 80, self.view.bounds.size.width, 300)];
+
+    
+    [self.view addSubview:calendar];
 }
 
 - (void)calendar:(WKCalendar *)calendar selectDate:(NSDate *)date

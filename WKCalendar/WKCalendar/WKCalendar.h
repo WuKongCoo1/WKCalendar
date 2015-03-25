@@ -31,13 +31,13 @@ extern NSString * const dayBtnClickedNotification;
 - (NSDate *)nextMonth:(NSDate *)date;
 - (NSDate *)lastMonth:(NSDate *)date;
 
-@property (nonatomic, strong) NSDate *date;
-@property (nonatomic, copy) void(^calendarBlock)(NSInteger day, NSInteger month, NSInteger year);
-@property (nonatomic, assign) WKCalendarType type;
-@property (nonatomic, strong) WKDayView *selectDayView;
 
-@property (nonatomic, assign) id<WKCalendarDelegate> delegate;
+@property (nonatomic, assign) WKCalendarType type;
 @property (nonatomic, assign) id<WKCalendarDataSource> dataSource;
+@property (nonatomic, assign) id<WKCalendarDelegate> delegate;
+@property (nonatomic, copy) void(^calendarBlock)(NSInteger day, NSInteger month, NSInteger year);
+@property (nonatomic, strong) NSDate *date;
+@property (nonatomic, strong) WKDayView *selectDayView;
 
 
 @end

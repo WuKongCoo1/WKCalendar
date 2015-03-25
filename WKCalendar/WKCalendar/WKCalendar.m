@@ -36,6 +36,7 @@
             
             [_daysArray addObject:button];
         }
+        [self setDate:[NSDate date]];
 
     }
     return self;
