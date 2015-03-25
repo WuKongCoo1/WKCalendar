@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		187D360C1AC2CB0800C80CA1 /* selected_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 187D360A1AC2CB0800C80CA1 /* selected_bg@2x.png */; };
+		187D360D1AC2CB0800C80CA1 /* selected_bg@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 187D360B1AC2CB0800C80CA1 /* selected_bg@3x.png */; };
 		1897F6771AC28487009C8A14 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1897F6761AC28487009C8A14 /* main.m */; };
 		1897F67A1AC28487009C8A14 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1897F6791AC28487009C8A14 /* AppDelegate.m */; };
 		1897F67D1AC28487009C8A14 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1897F67C1AC28487009C8A14 /* ViewController.m */; };
@@ -35,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		187D360A1AC2CB0800C80CA1 /* selected_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "selected_bg@2x.png"; sourceTree = "<group>"; };
+		187D360B1AC2CB0800C80CA1 /* selected_bg@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "selected_bg@3x.png"; sourceTree = "<group>"; };
 		1897F6711AC28487009C8A14 /* WKCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WKCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1897F6751AC28487009C8A14 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1897F6761AC28487009C8A14 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -164,6 +168,8 @@
 		1897F6B21AC285F1009C8A14 /* resource */ = {
 			isa = PBXGroup;
 			children = (
+				187D360A1AC2CB0800C80CA1 /* selected_bg@2x.png */,
+				187D360B1AC2CB0800C80CA1 /* selected_bg@3x.png */,
 				1897F6B31AC285F1009C8A14 /* choose_on@2x.png */,
 				1897F6B41AC285F1009C8A14 /* lastMonthBg@2x.png */,
 				1897F6B51AC285F1009C8A14 /* nextMonthBg@2x.png */,
@@ -252,8 +258,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				1897F6801AC28487009C8A14 /* Main.storyboard in Resources */,
+				187D360D1AC2CB0800C80CA1 /* selected_bg@3x.png in Resources */,
 				1897F6B71AC285F1009C8A14 /* lastMonthBg@2x.png in Resources */,
 				1897F6851AC28487009C8A14 /* LaunchScreen.xib in Resources */,
+				187D360C1AC2CB0800C80CA1 /* selected_bg@2x.png in Resources */,
 				1897F6B61AC285F1009C8A14 /* choose_on@2x.png in Resources */,
 				1897F6821AC28487009C8A14 /* Images.xcassets in Resources */,
 				1897F6B81AC285F1009C8A14 /* nextMonthBg@2x.png in Resources */,
@@ -480,6 +488,7 @@
 				1897F6961AC28487009C8A14 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1897F6971AC28487009C8A14 /* Build configuration list for PBXNativeTarget "WKCalendarTests" */ = {
 			isa = XCConfigurationList;
@@ -488,6 +497,7 @@
 				1897F6991AC28487009C8A14 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

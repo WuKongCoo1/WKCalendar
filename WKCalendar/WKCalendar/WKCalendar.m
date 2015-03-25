@@ -10,12 +10,11 @@
 #import "WKDayView.h"
 #import "WKDayListView.h"
 #import "WKCalendarHeader.h"
-#import "WKCalendarDefine.h"
+
 
 
 @implementation WKCalendar
 {
-    WKDayView *_selectDayView;
     NSMutableArray *_daysArray;
     WKDayListView *_dayListView;
     WKCalendarHeader *_headerView;
@@ -37,7 +36,7 @@
             
             [_daysArray addObject:button];
         }
-#warning 修改，不用通知用代理
+
     }
     return self;
 }
@@ -122,6 +121,7 @@
     
     //listView
     _dayListView = [[WKDayListView alloc] initWithFrame:CGRectMake(0, itemH, self.frame.size.width, itemH * 7)];
+    _dayListView.type = self.type;
     [self addSubview:_dayListView];
     [_dayListView setDate:_date];
 }
@@ -152,7 +152,7 @@
         CGRect newF = _dayListView.frame;
         newF.origin.x += _dayListView.bounds.size.width;
         WKDayListView *newDayList = [[WKDayListView alloc] initWithFrame:newF];
-        
+        newDayList.type = self.type;
         _date = [self nextMonth:self.date];
         [self addSubview:newDayList];
         [newDayList setDate:_date];
@@ -174,7 +174,7 @@
         CGRect newF = _dayListView.frame;
         newF.origin.x -= _dayListView.bounds.size.width;
         WKDayListView *newDayList = [[WKDayListView alloc] initWithFrame:newF];
-        
+        newDayList.type = self.type;
         _date = [self lastMonth:self.date];
         [self addSubview:newDayList];
         [newDayList setDate:_date];

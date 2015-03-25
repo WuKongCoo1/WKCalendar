@@ -7,13 +7,23 @@
 //
 #import <UIKit/UIKit.h>
 #import "WKDayView.h"
+#import "WKCalendarDefine.h"
+
+
 extern NSString * const dayBtnClickedNotification;
 @class WKCalendar;
-@protocol  WKCalendarDelegate<NSObject>
+@protocol  WKCalendarDelegate <NSObject>
 
 - (void)calendar:(WKCalendar *)calendar selectDate:(NSDate *)date;
 
 @end
+
+@protocol WKCalendarDataSource <NSObject>
+
+- (NSArray *)calendar:(WKCalendar *)calendar;
+
+@end
+
 
 @interface WKCalendar : UIView <WKDayViewProtocol>
 
@@ -23,6 +33,11 @@ extern NSString * const dayBtnClickedNotification;
 
 @property (nonatomic, strong) NSDate *date;
 @property (nonatomic, copy) void(^calendarBlock)(NSInteger day, NSInteger month, NSInteger year);
+@property (nonatomic, assign) WKCalendarType type;
+@property (nonatomic, strong) WKDayView *selectDayView;
+
 @property (nonatomic, assign) id<WKCalendarDelegate> delegate;
+@property (nonatomic, assign) id<WKCalendarDataSource> dataSource;
+
 
 @end

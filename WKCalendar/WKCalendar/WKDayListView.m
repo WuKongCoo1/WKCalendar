@@ -124,18 +124,90 @@
             
             [dayView setStyle_BeyondThisMonth];
         }else{//本月的
+            
             day = i - firstWeekday + 1;
             dayView.tag = day;
             dayView.date = date;
             
-            [dayView setStyle_Normal];
-            
-//            if (day % 2 == 0) {
-//                [dayView setStyle_NoHomework];
-//            }else{
-//                [dayView setStyle_HaveHomework];
-//            }
-            
+            if (self.type == WKCalendarTypeWithoutDataSource) {//所有都可以选
+                
+                [dayView setStyle_Normal];
+                
+                //判断当前选中
+                NSDateFormatter *df = [[NSDateFormatter alloc] init];
+                df.dateFormat = @"yyyy-MM-dd";
+                NSString *dayViewDayStr = [df stringFromDate:dayView.date];
+                dayView.date = [df dateFromString:dayViewDayStr];
+                NSString *nowDateDayStr = [df stringFromDate:[NSDate date]];
+                df.dateFormat = @"yyyy-MM";
+                NSString *nowDateMonthStr = [df stringFromDate:[NSDate date]];
+                NSString *dayViewMonthStr = [df stringFromDate:dayView.date];
+                
+                if ([nowDateMonthStr compare:dayViewMonthStr] == NSOrderedSame) {//同一个月
+                    if ([nowDateDayStr isEqualToString:dayViewDayStr]) {
+                        dayView.dayBtn.selected = YES;
+                        _calendar.selectDayView = dayView;
+                    }
+                    
+                }else{//不同一个月
+                    if (day == DefaultDay) {
+                        dayView.dayBtn.selected = YES;
+                        _calendar.selectDayView = dayView;
+                    }
+                }
+
+                
+                
+                
+            }else if (self.type == WKCalendarTypeWithDataSource){//部分可以选择
+                
+                if ([_calendar.dataSource respondsToSelector:@selector(calendar:)]) {
+                    NSArray *arr = [_calendar.dataSource calendar:self.calendar];
+                    BOOL state = NO;
+                    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+                    df.dateFormat = @"yyyy-MM-dd";
+                    NSString *dayViewDayStr = [df stringFromDate:dayView.date];
+                    dayView.date = [df dateFromString:dayViewDayStr];
+                    for (NSString *dateStr in arr) {
+                        
+                        for (int i = 0; i < 10; i++) {
+                            
+                            if ([dayViewDayStr isEqualToString:dateStr]) { //有特殊状态
+                                state = YES;
+                            }
+                        }
+                        
+                    }
+                    if (state) { //有
+                        [dayView setStyle_FillColor];
+                    }else{//没有
+                        [dayView setStyle_Normal];
+                    }
+                    
+                    
+                    NSString *nowDateDayStr = [df stringFromDate:[NSDate date]];
+                    df.dateFormat = @"yyyy-MM";
+                    NSString *nowDateMonthStr = [df stringFromDate:[NSDate date]];
+                    NSString *dayViewMonthStr = [df stringFromDate:dayView.date];
+                    if ([nowDateMonthStr compare:dayViewMonthStr] == NSOrderedSame) {//同一个月
+                        if ([nowDateDayStr isEqualToString:dayViewDayStr]) {
+                            dayView.dayBtn.selected = YES;
+                            _calendar.selectDayView = dayView;
+                        }
+                        
+                    }else{//不同一个月
+                        
+                        if (day == DefaultDay) {
+                            dayView.dayBtn.selected = YES;
+                            _calendar.selectDayView = dayView;
+                        }
+                    }
+                    
+                }else{//没有数据源
+                    [dayView setStyle_Normal];
+                }
+
+            }
             
         }
         

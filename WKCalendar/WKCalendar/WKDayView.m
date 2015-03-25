@@ -116,9 +116,21 @@ NSString * const dayBtnClickedNotification = @"dayBtnClickedNotification";
     _dayBtn.enabled = YES;
     [_dayBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     
-    [_dayBtn setBackgroundImage:[UIImage imageNamed:@"choose_on"] forState:UIControlStateSelected];
+    [_dayBtn setBackgroundImage:[UIImage imageNamed:@"selected_bg"] forState:UIControlStateSelected];
+    [_dayBtn setBackgroundImage:[UIImage imageNamed:@"selected_bg"]forState:UIControlStateHighlighted];
+    [_dayBtn setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
+    _dayBtn.layer.masksToBounds = YES;
+}
+
+- (void)setStyle_FillColor
+{
+    _dayBtn.enabled = YES;
+    [_dayBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    
+    [_dayBtn setBackgroundImage:[UIImage imageNamed:@"choose_on"] forState:UIControlStateNormal];
     [_dayBtn setBackgroundImage:[UIImage imageNamed:@"choose_on"]forState:UIControlStateHighlighted];
     [_dayBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+
     _dayBtn.layer.masksToBounds = YES;
 }
 
@@ -147,11 +159,6 @@ NSString * const dayBtnClickedNotification = @"dayBtnClickedNotification";
     NSDate *localeDate = [firstDate  dateByAddingTimeInterval: interval];
 
     _date = localeDate;
-    
-    
-
-
-    
 }
 
 @end
