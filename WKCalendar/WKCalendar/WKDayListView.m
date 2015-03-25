@@ -127,12 +127,14 @@
             day = i - firstWeekday + 1;
             dayView.tag = day;
             dayView.date = date;
-
-            if (day % 2 == 0) {
-                [dayView setStyle_NoHomework];
-            }else{
-                [dayView setStyle_HaveHomework];
-            }
+            
+            [dayView setStyle_Normal];
+            
+//            if (day % 2 == 0) {
+//                [dayView setStyle_NoHomework];
+//            }else{
+//                [dayView setStyle_HaveHomework];
+//            }
             
             
         }

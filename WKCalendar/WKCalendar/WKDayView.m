@@ -77,12 +77,6 @@ NSString * const dayBtnClickedNotification = @"dayBtnClickedNotification";
 
 - (void)btnClicked:(UIButton *)sender
 {
-//    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithCapacity:1];
-//    dic[@"dayView"] = sender.superview;
-//    NSNotification *noti = [[NSNotification alloc] initWithName:dayBtnClickedNotification object:self.dayListView userInfo:dic];
-//    [[NSNotificationCenter defaultCenter] postNotification:noti];
-//    [[NSNotificationCenter defaultCenter] postNotificationName:dayBtnClickedNotification object:self.dayListView];
-    
     if ([self.delegate respondsToSelector:@selector(WKDayViewSelected:)]) {
         [self.delegate WKDayViewSelected:self];
     }
@@ -110,6 +104,17 @@ NSString * const dayBtnClickedNotification = @"dayBtnClickedNotification";
     _dayBtn.layer.borderColor = RGB(43, 173, 195).CGColor;
     _dayBtn.layer.borderWidth = 1.0f;
     [_dayBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    
+    [_dayBtn setBackgroundImage:[UIImage imageNamed:@"choose_on"] forState:UIControlStateSelected];
+    [_dayBtn setBackgroundImage:[UIImage imageNamed:@"choose_on"]forState:UIControlStateHighlighted];
+    [_dayBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    _dayBtn.layer.masksToBounds = YES;
+}
+
+- (void)setStyle_Normal
+{
+    _dayBtn.enabled = YES;
+    [_dayBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     
     [_dayBtn setBackgroundImage:[UIImage imageNamed:@"choose_on"] forState:UIControlStateSelected];
     [_dayBtn setBackgroundImage:[UIImage imageNamed:@"choose_on"]forState:UIControlStateHighlighted];
@@ -145,7 +150,7 @@ NSString * const dayBtnClickedNotification = @"dayBtnClickedNotification";
     
     
 
-#warning 写一个转换时间为当前时区的博客
+
     
 }
 

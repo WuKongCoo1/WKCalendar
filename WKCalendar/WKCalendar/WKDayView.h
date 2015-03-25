@@ -28,4 +28,5 @@
 - (void)setTitle:(NSString *)title;
 - (void)changeState;
 - (void)setStyle_NoHomework;
+- (void)setStyle_Normal;
 @end
