@@ -20,16 +20,30 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self createFromSB];
+    
+//    [self createWithCode];
+}
+
+
+- (void)createFromSB
+{
     _calendar.delegate = self;
     _calendar.dataSource = self;
     _calendar.type = WKCalendarTypeWithDataSource;
-    _calendar.hidden = YES;
-    
-    WKCalendar *calendar = [[WKCalendar alloc] initWithFrame:CGRectMake(0, 80, self.view.bounds.size.width, 300)];
+}
 
-    
+- (void)createWithCode
+{
+    _calendar.hidden = YES;
+    WKCalendar *calendar = [[WKCalendar alloc] initWithFrame:CGRectMake(0, 80, self.view.bounds.size.width, 300)];
+    calendar.delegate = self;
+    calendar.type = WKCalendarTypeWithoutDataSource;
+
     [self.view addSubview:calendar];
 }
+
 
 - (void)calendar:(WKCalendar *)calendar selectDate:(NSDate *)date
 {

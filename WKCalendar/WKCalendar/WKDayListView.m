@@ -137,7 +137,7 @@
                 NSDateFormatter *df = [[NSDateFormatter alloc] init];
                 df.dateFormat = @"yyyy-MM-dd";
                 NSString *dayViewDayStr = [df stringFromDate:dayView.date];
-                dayView.date = [df dateFromString:dayViewDayStr];
+
                 NSString *nowDateDayStr = [df stringFromDate:[NSDate date]];
                 df.dateFormat = @"yyyy-MM";
                 NSString *nowDateMonthStr = [df stringFromDate:[NSDate date]];
@@ -156,18 +156,17 @@
                     }
                 }
 
-                
-                
-                
             }else if (self.type == WKCalendarTypeWithDataSource){//部分可以选择
                 
                 if ([_calendar.dataSource respondsToSelector:@selector(calendar:)]) {
+                    
                     NSArray *arr = [_calendar.dataSource calendar:self.calendar];
                     BOOL state = NO;
                     NSDateFormatter *df = [[NSDateFormatter alloc] init];
                     df.dateFormat = @"yyyy-MM-dd";
                     NSString *dayViewDayStr = [df stringFromDate:dayView.date];
-                    dayView.date = [df dateFromString:dayViewDayStr];
+
+
                     for (NSString *dateStr in arr) {
                         
                         for (int i = 0; i < 10; i++) {
