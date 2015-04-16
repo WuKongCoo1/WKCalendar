@@ -99,7 +99,7 @@
     }
     
     //  3.days (1-31)
-    for (int i = 0; i < 35; i++) {
+    for (int i = 0; i < 42; i++) {
         
         int x = (i % 7) * itemW ;
         int y = (i / 7) * itemH + CGRectGetMaxY(weekBg.frame);
