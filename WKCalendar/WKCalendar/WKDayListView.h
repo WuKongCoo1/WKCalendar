@@ -13,6 +13,6 @@
 @property (nonatomic, weak) WKCalendar *calendar;
 @property (nonatomic, assign) WKCalendarType type;
 
-- (void)setDate:(NSDate*)date;
+- (void)setDate:(NSDate*)date selectedDay:(NSInteger)selectedDay;
 
 @end

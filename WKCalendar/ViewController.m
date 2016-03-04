@@ -31,7 +31,7 @@
 {
     _calendar.delegate = self;
     _calendar.dataSource = self;
-    _calendar.type = WKCalendarTypeWithDataSource;
+    _calendar.type = WKCalendarTypeWithoutDataSource;
 }
 
 - (void)createWithCode
@@ -55,12 +55,21 @@
     _dataSource = [NSMutableArray array];
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     df.dateFormat = @"yyyy-MM-dd";
-    for (int i = 0; i < 10; i++) {
-        NSDate *lateDate = [[NSDate date] laterDate:[NSDate date]];
-        NSString *str = [df stringFromDate:lateDate];
+    NSDate *lastDate = [NSDate date];
+    for (int i = 0; i < 1; i++) {
+
+        NSString *str = [df stringFromDate:lastDate];
         [_dataSource addObject:str];
+        lastDate = [self nextDay:lastDate];
     }
     return _dataSource;
+}
+
+- (NSDate *)nextDay:(NSDate *)date{
+    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
+    dateComponents.day = +1;
+    NSDate *newDate = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:date options:0];
+    return newDate;
 }
 
 @end

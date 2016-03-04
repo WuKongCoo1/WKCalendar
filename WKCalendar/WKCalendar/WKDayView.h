@@ -7,7 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+
+typedef NS_ENUM(NSInteger, DayViewType) {
+    DayViewTypeCurrentMonth = 0,
+    DayViewTypeLastMonth,
+    DayViewTypeNextMonth
+};
+
 @class WKDayView;
+
 @protocol WKDayViewProtocol <NSObject>
 
 - (void)WKDayViewSelected:(WKDayView *)dayView;
@@ -20,6 +28,7 @@
 @property (nonatomic, strong) NSDate *date;
 @property (weak, nonatomic) UIView *dayListView;
 @property (assign, nonatomic) id<WKDayViewProtocol> delegate;
+@property (assign, nonatomic) DayViewType type;
 
 - (void)btnClicked:(UIButton *)sender;
 
@@ -27,7 +36,9 @@
 - (void)setStyle_AfterToday;
 - (void)setStyle_Today;
 - (void)setStyle_BeforeToday;
-- (void)setStyle_BeyondThisMonth;
+//- (void)setStyle_BeyondThisMonth;
+- (void)setStyleNextMonth;
+- (void)setStyleLastMonth;
 - (void)setTitle:(NSString *)title;
 - (void)changeState;
 - (void)setStyle_NoHomework;

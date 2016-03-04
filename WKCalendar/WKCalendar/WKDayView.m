@@ -42,15 +42,24 @@ NSString * const dayBtnClickedNotification = @"dayBtnClickedNotification";
 
 #pragma mark - date button style
 
-- (void)setStyle_BeyondThisMonth
+- (void)setStyleLastMonth
 {
-    _dayBtn.enabled = NO;
+    self.type = DayViewTypeLastMonth;
+    _dayBtn.enabled = YES;
+    [_dayBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+}
+
+- (void)setStyleNextMonth
+{
+    self.type = DayViewTypeNextMonth;
+    _dayBtn.enabled = YES;
     [_dayBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
 }
 
 - (void)setStyle_BeforeToday
 {
-    _dayBtn.enabled = NO;
+    
+    _dayBtn.enabled = YES;
     [_dayBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
 }
 
@@ -80,7 +89,6 @@ NSString * const dayBtnClickedNotification = @"dayBtnClickedNotification";
     if ([self.delegate respondsToSelector:@selector(WKDayViewSelected:)]) {
         [self.delegate WKDayViewSelected:self];
     }
-//    NSLog(@"%@", _date);
 }
 
 - (void)changeState
@@ -126,8 +134,8 @@ NSString * const dayBtnClickedNotification = @"dayBtnClickedNotification";
 {
     _dayBtn.enabled = YES;
     [_dayBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    
     [_dayBtn setBackgroundImage:[UIImage imageNamed:@"choose_on"] forState:UIControlStateNormal];
+    [_dayBtn setBackgroundImage:[UIImage imageNamed:@"choose_on"] forState:UIControlStateSelected];
     [_dayBtn setBackgroundImage:[UIImage imageNamed:@"choose_on"]forState:UIControlStateHighlighted];
     [_dayBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
 

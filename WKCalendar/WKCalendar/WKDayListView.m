@@ -16,7 +16,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-
+        
     }
     return self;
 }
@@ -76,11 +76,27 @@
     return newDate;
 }
 
-- (void)setDate:(NSDate*)date
+- (void)setDate:(NSDate*)date selectedDay:(NSInteger)selectedDay
 {
     CGFloat itemW     = self.frame.size.width / 7;
     CGFloat itemH     = self.frame.size.height / 7;
-    // 2.weekday
+    // 2.创建星期头
+    UIView *weekBg = [self createWeekDayLabelWithItemWidth:itemW itemHeight:itemH];
+    
+    // 3.创建每一天的视图
+    [self createDayViewsDate:date weekBgView:weekBg itemWidth:itemW itemHeight:itemH selectedDay:selectedDay];
+}
+
+/**
+ *  创建日期Label
+ *
+ *  @param itemW 宽
+ *  @param itemH gao
+ *
+ *  @return 日期label父视图View
+ */
+- (UIView *)createWeekDayLabelWithItemWidth:(CGFloat)itemW itemHeight:(CGFloat)itemH
+{
     NSArray *array = @[@"日", @"一", @"二", @"三", @"四", @"五", @"六"];
     UIView *weekBg = [[UIView alloc] init];
     weekBg.backgroundColor = [UIColor clearColor];
@@ -98,7 +114,11 @@
         [weekBg addSubview:week];
     }
     
-    //  3.days (1-31)
+    return weekBg;
+}
+
+- (void)createDayViewsDate:(NSDate *)date weekBgView:(UIView *)weekBg itemWidth:(CGFloat)itemW itemHeight:(CGFloat)itemH selectedDay:(NSInteger)selectedDay
+{
     for (int i = 0; i < 42; i++) {
         
         int x = (i % 7) * itemW ;
@@ -117,117 +137,129 @@
         if (i < firstWeekday) {//上个月的
             day = daysInLastMonth - firstWeekday + i + 1;
             
-            [dayView setStyle_BeyondThisMonth];
+            [dayView setStyleLastMonth];
             
         }else if (i > firstWeekday + daysInThisMonth - 1){//下个月的
             day = i + 1 - firstWeekday - daysInThisMonth;
             
-            [dayView setStyle_BeyondThisMonth];
+            [dayView setStyleNextMonth];
         }else{//本月的
             
             day = i - firstWeekday + 1;
             dayView.tag = day;
             dayView.date = date;
             
-            if (self.type == WKCalendarTypeWithoutDataSource) {//所有都可以选
+            if (self.type == WKCalendarTypeWithoutDataSource) {//没有特殊标志的
                 
-                [dayView setStyle_Normal];
+                [self setDayViewCanSelected:dayView day:day selectedDay:selectedDay];
                 
-                //判断当前选中
-                NSDateFormatter *df = [[NSDateFormatter alloc] init];
-                df.dateFormat = @"yyyy-MM-dd";
-                NSString *dayViewDayStr = [df stringFromDate:dayView.date];
-
-                NSString *nowDateDayStr = [df stringFromDate:[NSDate date]];
-                df.dateFormat = @"yyyy-MM";
-                NSString *nowDateMonthStr = [df stringFromDate:[NSDate date]];
-                NSString *dayViewMonthStr = [df stringFromDate:dayView.date];
-                
-                if ([nowDateMonthStr compare:dayViewMonthStr] == NSOrderedSame) {//同一个月
-                    if ([nowDateDayStr isEqualToString:dayViewDayStr]) {
-                        dayView.dayBtn.selected = YES;
-                        _calendar.selectDayView = dayView;
-                    }
-                    
-                }else{//不同一个月
-                    if (day == DefaultDay) {
-                        dayView.dayBtn.selected = YES;
-                        _calendar.selectDayView = dayView;
-                    }
-                }
-
-            }else if (self.type == WKCalendarTypeWithDataSource){//部分可以选择
+            }else if (self.type == WKCalendarTypeWithDataSource){//有特殊标志的
                 
                 if ([_calendar.dataSource respondsToSelector:@selector(calendar:)]) {
                     
                     NSArray *arr = [_calendar.dataSource calendar:self.calendar];
-                    BOOL state = NO;
-                    NSDateFormatter *df = [[NSDateFormatter alloc] init];
-                    df.dateFormat = @"yyyy-MM-dd";
-                    NSString *dayViewDayStr = [df stringFromDate:dayView.date];
-
-
-                    for (NSString *dateStr in arr) {
-                        
-                        for (int i = 0; i < 10; i++) {
-                            
-                            if ([dayViewDayStr isEqualToString:dateStr]) { //有特殊状态
-                                state = YES;
-                            }
-                        }
-                        
-                    }
-                    if (state) { //有
-                        [dayView setStyle_FillColor];
-                    }else{//没有
-                        [dayView setStyle_Normal];
-                    }
                     
-                    
-                    NSString *nowDateDayStr = [df stringFromDate:[NSDate date]];
-                    df.dateFormat = @"yyyy-MM";
-                    NSString *nowDateMonthStr = [df stringFromDate:[NSDate date]];
-                    NSString *dayViewMonthStr = [df stringFromDate:dayView.date];
-                    if ([nowDateMonthStr compare:dayViewMonthStr] == NSOrderedSame) {//同一个月
-                        if ([nowDateDayStr isEqualToString:dayViewDayStr]) {
-                            dayView.dayBtn.selected = YES;
-                            _calendar.selectDayView = dayView;
-                        }
-                        
-                    }else{//不同一个月
-                        
-                        if (day == DefaultDay) {
-                            dayView.dayBtn.selected = YES;
-                            _calendar.selectDayView = dayView;
-                        }
-                    }
+                    [self setupDayView:dayView dataSource:arr day:day selectedDay:selectedDay];
                     
                 }else{//没有数据源
                     [dayView setStyle_Normal];
                 }
-
+                
             }
             
         }
         
         [dayView setTitle:[NSString stringWithFormat:@"%ld", day]];
+        dayView.tag = day;
         
-        // this month
-        if ([self month:date] == [self month:[NSDate date]]) {
-            
-            NSInteger todayIndex = [self day:date] + firstWeekday - 1;
-            
-            if (i < todayIndex && i >= firstWeekday) {
-                //                [self setStyle_BeforeToday:dayButton];
-                
-            }else if(i ==  todayIndex){
-                //                [self setStyle_Today:dayButton];
-                
-            }
-        }
         [self addSubview:dayView];
     }
+}
 
+/**
+ *  根据数组设置dayView的特殊状态
+ *
+ *  @param dayView     日期View
+ *  @param day         号
+ *  @param selectedDay 当前选中的天数
+ */
+- (void)setDayViewCanSelected:(WKDayView *)dayView day:(NSInteger)day selectedDay:(NSInteger)selectedDay
+{
+    [dayView setStyle_Normal];
+    
+    //判断当前选中
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    df.dateFormat = @"yyyy-MM-dd";
+    NSString *dayViewDayStr = [df stringFromDate:dayView.date];
+    
+    NSString *nowDateDayStr = [df stringFromDate:[NSDate date]];
+    df.dateFormat = @"yyyy-MM";
+    NSString *nowDateMonthStr = [df stringFromDate:[NSDate date]];
+    NSString *dayViewMonthStr = [df stringFromDate:dayView.date];
+    
+    if ([nowDateMonthStr compare:dayViewMonthStr] == NSOrderedSame) {//同一个月
+        if ([nowDateDayStr isEqualToString:dayViewDayStr]) {
+            [dayView setStyle_FillColor];
+            dayView.dayBtn.selected = YES;
+            _calendar.selectDayView = dayView;
+        }
+        
+    }else{//不同一个月
+        if (day == (selectedDay ? selectedDay : DefaultDay)) {
+            dayView.dayBtn.selected = YES;
+            _calendar.selectDayView = dayView;
+        }
+    }
+
+}
+
+
+
+
+
+
+
+- (void)setupDayView:(WKDayView *)dayView dataSource:(NSArray *)dataSource day:(NSInteger)day selectedDay:(NSInteger)selectedDay
+{
+    BOOL state = NO;
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    df.dateFormat = @"yyyy-MM-dd";
+    NSString *dayViewDayStr = [df stringFromDate:dayView.date];
+    
+    
+    for (NSString *dateStr in dataSource) {
+        
+        for (int i = 0; i < 10; i++) {
+            
+            if ([dayViewDayStr isEqualToString:dateStr]) { //有特殊状态
+                state = YES;
+            }
+        }
+        
+    }
+    if (state) { //有
+        [dayView setStyle_FillColor];
+    }else{//没有
+        [dayView setStyle_Normal];
+    }
+    
+    NSString *nowDateDayStr = [df stringFromDate:[NSDate date]];
+    df.dateFormat = @"yyyy-MM";
+    NSString *nowDateMonthStr = [df stringFromDate:[NSDate date]];
+    NSString *dayViewMonthStr = [df stringFromDate:dayView.date];
+    if ([nowDateMonthStr compare:dayViewMonthStr] == NSOrderedSame) {//同一个月
+        if ([nowDateDayStr isEqualToString:dayViewDayStr]) {
+            dayView.dayBtn.selected = YES;
+            _calendar.selectDayView = dayView;
+        }
+        
+    }else{//不同一个月
+        
+        if (day == (selectedDay ? selectedDay : DefaultDay)) {
+            dayView.dayBtn.selected = YES;
+            _calendar.selectDayView = dayView;
+        }
+    }
 }
 
 @end
