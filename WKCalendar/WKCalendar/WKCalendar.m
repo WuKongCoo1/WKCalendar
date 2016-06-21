@@ -26,6 +26,7 @@
 - (void)awakeFromNib
 {
     isAwakeFromNib = YES;
+    _date = [NSDate date];
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -43,6 +44,7 @@
     }
     return self;
 }
+
 
 - (void)layoutSubviews
 {
@@ -102,6 +104,16 @@
     dateComponents.month = +1;
     NSDate *newDate = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:date options:0];
     return newDate;
+}
+
+- (NSInteger)dateInCurrentMonthDay:(NSDate *)date
+{
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    df.dateFormat = @"dd";
+    
+    NSString *dayString = [df stringFromDate:date];
+    
+    return [dayString integerValue];
 }
 
 #pragma mark - create View
@@ -187,7 +199,7 @@
 }
 
 - (void)createCalendarViewWith:(NSDate *)date{
-    
+    _date = date;
     CGFloat itemH     = self.frame.size.height / 8;
     
     //header
@@ -231,7 +243,7 @@
         }
         
         
-        
+        _date = dayView.date;
         if ([self.delegate respondsToSelector:@selector(calendar:selectDate:)]) {
             [self.delegate calendar:self selectDate:dayView.date];
         }

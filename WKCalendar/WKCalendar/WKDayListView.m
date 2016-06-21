@@ -137,10 +137,15 @@
         if (i < firstWeekday) {//上个月的
             day = daysInLastMonth - firstWeekday + i + 1;
             
+            dayView.tag = day;
+            dayView.date = [self lastMonth:date];
+            
             [dayView setStyleLastMonth];
             
         }else if (i > firstWeekday + daysInThisMonth - 1){//下个月的
             day = i + 1 - firstWeekday - daysInThisMonth;
+            dayView.tag = day;
+            dayView.date = [self nextMonth:date];
             
             [dayView setStyleNextMonth];
         }else{//本月的
@@ -200,6 +205,11 @@
     if ([nowDateMonthStr compare:dayViewMonthStr] == NSOrderedSame) {//同一个月
         if ([nowDateDayStr isEqualToString:dayViewDayStr]) {
             [dayView setStyle_FillColor];
+            dayView.dayBtn.selected = YES;
+            _calendar.selectDayView = dayView;
+        }
+        
+        if (day == selectedDay) {
             dayView.dayBtn.selected = YES;
             _calendar.selectDayView = dayView;
         }

@@ -150,23 +150,23 @@ NSString * const dayBtnClickedNotification = @"dayBtnClickedNotification";
 - (void)setDate:(NSDate *)date
 {
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
-    [df setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:8]];
+//    [df setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:8]];
     df.dateFormat = @"yyyy-MM-dd HH:mm:ss";
     NSString *dateStr = [df stringFromDate:date];
     NSMutableString *firstDayStr = [dateStr mutableCopy];
     [firstDayStr replaceCharactersInRange:NSMakeRange(8, 2) withString:[NSString stringWithFormat:@"%02ld", self.tag]];
     NSDate *firstDate = [df dateFromString:firstDayStr];
     
-    NSDate *realDate;
-    realDate = [[NSDate alloc] initWithTimeInterval:24 * 60 * 60 * (self.tag - 1)sinceDate:firstDate];
-    
-    NSTimeZone *zone = [NSTimeZone systemTimeZone];
-    
-    NSInteger interval = [zone secondsFromGMTForDate: firstDate];
-    
-    NSDate *localeDate = [firstDate  dateByAddingTimeInterval: interval];
+//    NSDate *realDate;
+//    realDate = [[NSDate alloc] initWithTimeInterval:24 * 60 * 60 * (self.tag - 1)sinceDate:firstDate];
+//    
+//    NSTimeZone *zone = [NSTimeZone systemTimeZone];
+//    
+//    NSInteger interval = [zone secondsFromGMTForDate: firstDate];
+//    
+//    NSDate *localeDate = [firstDate  dateByAddingTimeInterval: interval];
 
-    _date = localeDate;
+    _date = [df dateFromString:firstDayStr];
 }
 
 @end
